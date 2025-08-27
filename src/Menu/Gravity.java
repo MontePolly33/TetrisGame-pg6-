@@ -18,12 +18,22 @@ public class Gravity {
             if (blockBottom < maxRows && !board.checkCollision(block[0])) {
                 block[0].moveDown();
             } else {
-                block[0].setLanded(true); //mark as landed to prevent further input
-                board.saveBlockToGrid(block[0]); //Store landed block in the grid
-                block[0] = RandomBlock.getRandomBlock(); // assign new block
+                block[0].setLanded(true); // mark as landed
+                board.saveBlockToGrid(block[0]); // save block
+
+                if (board.isGameOver()) {
+                    timeline.stop(); // stop gravity timer
+                    System.out.println("Game Over!");
+                    //gameOver = true;
+                    return; // stop everything
+                } else {
+                    block[0] = RandomBlock.getRandomBlock(); // only assign if not game over
+                    board.renderBlock(block[0]); // optional: render new block only if game not over
+                }
             }
 
-            board.renderBlock(block[0]);
+
+            board.renderBlock(block[0]); //block moves down
         }));
 
         timeline.setCycleCount(Timeline.INDEFINITE);

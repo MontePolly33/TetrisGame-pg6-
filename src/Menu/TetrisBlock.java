@@ -26,6 +26,10 @@ public boolean isLanded(){
         this.y = 0; // start position at top
 
     }
+    public void rotate(){
+    rotation = (rotation + 1) % TetrisShapes.getRotationCount(shapeIndex);
+    shape = TetrisShapes.getShape(shapeIndex, rotation);
+    }
 
     public int[][] getShape() {
         return shape;

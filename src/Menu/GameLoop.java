@@ -7,6 +7,9 @@ import javafx.util.Duration;
 
 
 public class GameLoop extends javafx.application.Application {
+    private boolean running = true; //gameover when blocks touches top
+    private boolean gameOver = false; // stop keypad access after gameover
+
     private boolean blockJustLanded = false;
     public void start(Stage stage) {
         GameBoard board = new GameBoard();
@@ -26,9 +29,23 @@ public class GameLoop extends javafx.application.Application {
         scene.setOnKeyPressed(event -> {
             TetrisBlock currentBlock = board.getCurrentBlock(); // requires getter
 
+
+
+            if (board.isGameOver()) {
+                running = false;
+                System.out.println("Game Over!");
+                return;
+
+            }
+
             if (currentBlock == null) return;
 
             switch (event.getCode()) {
+                case W:
+                case UP:
+                    currentBlock.rotate();
+                    break;
+
                 case A:
                 case LEFT:
                     currentBlock.moveLeft();

@@ -152,6 +152,18 @@ public class GameBoard extends Canvas {
 
 
 
+    public boolean isGameOver() {
+// Check the top row (row 0) for any non-zero blocks
+        for (int col = 0; col < grid[0].length; col++) {
+            if (grid[0][col] != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
 
 
     public TetrisBlock getCurrentBlock() {
