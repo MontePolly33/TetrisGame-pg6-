@@ -11,12 +11,13 @@ public class GameBoard extends Canvas {
     public static final int BOARD_HEIGHT = 20;
 
     private int[][] grid = new int[20][10];
+    private int[] gridCols = {0,1,2,3,4,5,6,7,8,9};
     private String[][] colorGrid = new String[20][10];
     //private boolean blockLanded = false; //lock flag
 
     public GameBoard() {
-        setWidth(10 * TILE_SIZE);
-        setHeight(20 * TILE_SIZE); //canvas
+        setWidth(BOARD_WIDTH * TILE_SIZE);
+        setHeight(BOARD_HEIGHT * TILE_SIZE); //canvas
     }
 
 
@@ -154,7 +155,7 @@ public class GameBoard extends Canvas {
 
     public boolean isGameOver() {
 // Check the top row (row 0) for any non-zero blocks
-        for (int col = 0; col < grid[0].length; col++) {
+        for (int col : gridCols) {
             if (grid[0][col] != 0) {
                 return true;
             }

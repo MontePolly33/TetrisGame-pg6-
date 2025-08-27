@@ -15,6 +15,12 @@ public class UI {
     }
 
     public void showMainMenu() {
+        Config config = new Config();
+        Scoreboard scoreboard = new Scoreboard();
+        Launch launch = new Launch();
+        ConfigInfo configInfo = new ConfigInfo();
+        ScoreboardInfo scoreboardInfo = new ScoreboardInfo();
+
         VBox layout = new VBox(20);
         layout.setStyle("-fx-alignment: center; -fx-padding: 40; -fx-background-color: black;");
 
@@ -23,9 +29,15 @@ public class UI {
         Button scoreboardButton = new Button("Scoreboard");
         Button quitButton = new Button("Quit");
 
-        startButton.setOnAction(e -> launchGame());
-        configButton.setOnAction(e -> showConfig());
-        scoreboardButton.setOnAction(e -> showScoreboard());
+        startButton.setOnAction(e -> launch.pressButton());
+        configButton.setOnAction(e -> {
+            config.pressButton();
+            configInfo.giveInfo();
+        });
+        scoreboardButton.setOnAction(e -> {
+            scoreboard.pressButton();
+            scoreboardInfo.giveInfo();
+        });
         quitButton.setOnAction(e -> mainStage.close());
 
 
@@ -37,29 +49,42 @@ public class UI {
         mainStage.show();
     }
 
-    private void showConfig() {
-        ConfigurationMenu config = new ConfigurationMenu();
-        config.start(mainStage);
+    public interface buttonPress {
+        void pressButton();
     }
 
-    private void showScoreboard() {
-        ScoreboardMenu scoreboard = new ScoreboardMenu();
-        scoreboard.start(mainStage);
+    public class Config implements buttonPress {
+        public void pressButton() {
+            ConfigurationMenu config = new ConfigurationMenu();
+            config.start(mainStage);
+        }
     }
 
-
-
-    private void launchGame() {
-        GameLoop game = new GameLoop();
-        game.start(mainStage);
-
+    public class Scoreboard implements buttonPress {
+        public void pressButton() {
+            ScoreboardMenu scoreboard = new ScoreboardMenu();
+            scoreboard.start(mainStage);
+        }
     }
 
-    //private void showConfig() {
-     //   System.out.println("Configuration clicked");
-    //}
+    public class Launch implements buttonPress {
+        public void pressButton() {
+            GameLoop game = new GameLoop();
+            game.start(mainStage);
+        }
+    }
 
-    //private void showScoreboard() {
-      //  System.out.println("Scoreboard clicked");
-   // }
+    abstract class Debug {
+        public abstract void giveInfo();
+    }
+    class ConfigInfo extends Debug {
+        public void giveInfo() {
+            System.out.println("Configuration clicked");
+        }
+    }
+    class ScoreboardInfo extends Debug {
+        public void giveInfo() {
+            System.out.println("Scoreboard clicked");
+        }
+    }
 }

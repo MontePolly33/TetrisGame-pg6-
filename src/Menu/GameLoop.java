@@ -41,24 +41,18 @@ public class GameLoop extends javafx.application.Application {
             if (currentBlock == null) return;
 
             switch (event.getCode()) {
-                case W:
-                case UP:
-                    currentBlock.rotate();
-                    break;
-
-                case A:
-                case LEFT:
-                    currentBlock.moveLeft();
-                    break;
-                case D:
-                case RIGHT:
-                    currentBlock.moveRight();
-                    break;
-                case S:
-                    if (blockJustLanded) break;
-
+                case W -> {}
+                case UP -> {currentBlock.rotate();}
+                case A -> {}
+                case LEFT -> {currentBlock.moveLeft();}
+                case D -> {}
+                case RIGHT -> {currentBlock.moveRight();}
+                case S -> {
+                    if (blockJustLanded) {
+                        break;
+                    }
                     int bottom = currentBlock.getY() + currentBlock.getShape().length;
-                    int maxRows = (int)(board.getHeight() / GameBoard.TILE_SIZE);
+                    int maxRows = (int) (board.getHeight() / GameBoard.TILE_SIZE);
 
                     if (bottom < maxRows && !board.checkCollision(currentBlock)) {
                         currentBlock.moveDown();
@@ -68,21 +62,16 @@ public class GameLoop extends javafx.application.Application {
                         currentBlock = RandomBlock.getRandomBlock();
                         blockJustLanded = true;
 
-// ⏳ Short delay to prevent instant re-triggering
+                    // ⏳ Short delay to prevent instant re-triggering
                         PauseTransition pause = new PauseTransition(Duration.millis(120)); // slightly longer
                         pause.setOnFinished(e -> blockJustLanded = false);
                         pause.play();
                     }
-                    break;
-
-                case Q:
-                case ESCAPE:
-                    System.exit(0);
-                    break;
-                default:
-                    break;
+                }
+                case Q -> {}
+                case ESCAPE -> {System.exit(0);}
+                default -> {}
             }
-
             board.renderBlock(currentBlock);
         });
     }
