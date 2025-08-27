@@ -11,13 +11,13 @@ public class Splashscreen extends Application {
     public void start(Stage primaryStage) {
 // Title and details
         Label title = new Label("🎮 Welcome to Tetris!");
-        Label name = new Label("Name: Montgomerie Solonou Polly");
-        Label studentId = new Label("Student ID: s5398257");
-        Label course = new Label("Course: Object-Oriented Programming");
+     //  Label name = new Label("Name: Montgomerie Solonou Polly");
+      //  Label studentId = new Label("Student ID: s5398257");
+      //  Label course = new Label("Course: Object-Oriented Programming");
 
 // Layout
         VBox root = new VBox(15); // 15 pixels spacing
-        root.getChildren().addAll(title, name, studentId, course);
+        root.getChildren().addAll(title);
         root.setStyle("-fx-padding: 30; -fx-alignment: center;");
 
 // Scene setup
