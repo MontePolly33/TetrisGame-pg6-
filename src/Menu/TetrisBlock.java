@@ -7,13 +7,11 @@ public class TetrisBlock {
     private int shapeIndex;
     private int rotation;
     private String color;
-    private static final int TILE_SIZE = 25;
 
-public void setLanded(boolean landed){
+    public void setLanded(boolean landed){
     this.hasLanded = landed;
 }
-
-public boolean isLanded(){
+    public boolean isLanded(){
     return hasLanded;
 }
 
@@ -24,11 +22,11 @@ public boolean isLanded(){
         this.shape = shape;
         this.x = 5; // start position horizontally
         this.y = 0; // start position at top
-
     }
+
     public void rotate(){
-    rotation = (rotation + 1) % TetrisShapes.getRotationCount(shapeIndex);
-    shape = TetrisShapes.getShape(shapeIndex, rotation);
+        rotation = (rotation + 1) % TetrisShapes.getRotationCount(shapeIndex);
+        shape = TetrisShapes.getShape(shapeIndex, rotation);
     }
 
     public int[][] getShape() {
@@ -43,26 +41,20 @@ public boolean isLanded(){
         return y;
     }
 
-    public void moveUp(){
-        y-=1; // move the block 1 tile up
-    }
+    public void moveUp(){ y--; }
 
-    public boolean moveDown() {
+    public void moveDown() {
        int [][] shape = getShape();
        if (y + shape.length < GameBoard.BOARD_HEIGHT){
            y++;
-           return true;
+           System.out.println(shape.length);
        }
-       else {
-           return false;
-       }
-
     }
 
     public void moveLeft() {
-       if(x > 0){ x--;
+       if(x > 0){
+           x--;
        }
-
     }
 
     public void moveRight() {
@@ -71,28 +63,23 @@ public boolean isLanded(){
        }
     }
 
-    public int getTileSize() {
-        return TILE_SIZE;
-    }
-
     public String getColor() {
         return TetrisShapes.getColor(shapeIndex);
     }
 
+    // For debugging
     public void resetPosition() {
         this.x = 3;
         this.y = 0;
     }
 
-
-
     public boolean tryMoveDown(GameBoard board) {
-// Move down temporarily
+        // Move down temporarily
         this.y++;
 
-// Check collision
+        // Check collision
         if (board.checkCollision(this)) {
-            this.y--; // Undo
+            moveUp(); // Undo
             this.setLanded(true);
             return false;
         }

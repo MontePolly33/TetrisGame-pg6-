@@ -10,9 +10,9 @@ public class GameBoard extends Canvas {
     public static final int BOARD_WIDTH = 10;
     public static final int BOARD_HEIGHT = 20;
 
-    private int[][] grid = new int[20][10];
-    private int[] gridCols = {0,1,2,3,4,5,6,7,8,9};
+    private int[][] grid = new int[BOARD_HEIGHT][BOARD_WIDTH];
     private String[][] colorGrid = new String[20][10];
+    //private int[] gridCols = {0,1,2,3,4,5,6,7,8,9};  // Change this to be malleable later, though you can't do a for loop raw in a class
     //private boolean blockLanded = false; //lock flag
 
     public GameBoard() {
@@ -20,12 +20,12 @@ public class GameBoard extends Canvas {
         setHeight(BOARD_HEIGHT * TILE_SIZE); //canvas
     }
 
-
+    // COLORS NEED TO TRACK WITH THE LINE CLEARING
     public void checkAndClearLines() {
         for (int row = grid.length - 1; row >= 0; row--) {
             boolean fullLine = true;
 
-// Check if the row is full
+            // Check if the row is full
             for (int col = 0; col < grid[row].length; col++) {
                 if (grid[row][col] == 0) {
                     fullLine = false;
@@ -33,14 +33,13 @@ public class GameBoard extends Canvas {
                 }
             }
 
-// If row is full, clear it
+            // If row is full, clear it
             if (fullLine) {
                 clearLine(row);
                 row++; // Check same row index again after shifting down
             }
         }
     }
-
 
     private void clearLine(int rowToClear) {
         for (int row = rowToClear; row > 0; row--) {
@@ -49,7 +48,7 @@ public class GameBoard extends Canvas {
             }
         }
 
-// Clear the top row (now duplicated)
+        // Clear the top row (now duplicated)
         for (int col = 0; col < grid[0].length; col++) {
             grid[0][col] = 0;
             colorGrid[0][col] = null;
@@ -65,15 +64,17 @@ public class GameBoard extends Canvas {
         GraphicsContext gc = getGraphicsContext2D();
         gc.clearRect(0, 0, getWidth(), getHeight());
 
-        for(int row = 0; row < grid.length; row++){
-            for(int col = 0; col < grid[row].length; col++){
+        // Renders all the blocks saved to the grid
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
                 if (grid[row][col] == 1){
                     gc.setFill(Color.web(colorGrid[row][col]));
-                    gc.fillRect(col * TILE_SIZE, row*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    gc.fillRect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 }
             }
         }
 
+        // Renders the moving block
         int[][] shape = block.getShape();
         int x = block.getX();
         int y = block.getY();
@@ -95,21 +96,21 @@ public class GameBoard extends Canvas {
         String color = block.getColor();
 
         for (int row = 0; row < shape.length; row++ ){
-            for (int col = 0; col <shape[row].length; col ++){
+            for (int col = 0; col < shape[row].length; col ++){
                 if (shape[row][col] == 1){
                     int gridRow = y + row;
                     int gridCol = x + col;
-                    if(gridRow >= 0 && gridRow <20 && gridCol >=0 && gridCol <10){
+                    if (gridRow >= 0 && gridRow < 20 && gridCol >= 0 && gridCol < 10){   // Original placeBlock didn't check bounds here
                         grid[gridRow][gridCol] = 1;
                         colorGrid[gridRow][gridCol] = color;
                     }
                 }
             }
         }
-
     }
 
-
+    // WE NEED TO CHECK COLLISION WITH OTHER BLOCKS' SIDES
+    // WE'RE ALSO ABLE TO ROTATE BLOCKS INTO THE WALL BOUNDS
     public boolean checkCollision(TetrisBlock block) {
         int[][] shape = block.getShape();
         int x = block.getX();
@@ -121,12 +122,12 @@ public class GameBoard extends Canvas {
                     int gridY = y + row + 1; // checking next row (downward)
                     int gridX = x + col;
 
-// Check if it's out of bounds (bottom of the board)
+                    // Check if it's out of bounds (bottom of the board)
                     if (gridY >= BOARD_HEIGHT) {
                         return true;
                     }
 
-// Check if it's colliding with an existing block
+                    // Check if it's colliding with an existing block
                     if (grid[gridY][gridX] == 1) {
                         return true;
                     }
@@ -137,35 +138,16 @@ public class GameBoard extends Canvas {
         return false; // No collision
     }
 
-    public void placeBlock(TetrisBlock block) {
-        int[][] shape = block.getShape();
-        int x = block.getX();
-        int y = block.getY();
-
-        for (int i = 0; i < shape.length; i++) {
-            for (int j = 0; j < shape[i].length; j++) {
-                if (shape[i][j] != 0) {
-                    grid[y + i][x + j] = shape[i][j];
-                }
-            }
-        }
-    }
-
-
-
     public boolean isGameOver() {
-// Check the top row (row 0) for any non-zero blocks
-        for (int col : gridCols) {
+        // Check the top row (row 0) for any non-zero blocks
+        for (int col = 0; col < BOARD_WIDTH; col++) {
             if (grid[0][col] != 0) {
                 return true;
             }
         }
+
         return false;
     }
-
-
-
-
 
     public TetrisBlock getCurrentBlock() {
         return currentBlock;

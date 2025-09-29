@@ -1,3 +1,6 @@
+// This file is currently unused
+package unused;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import Menu.UI;

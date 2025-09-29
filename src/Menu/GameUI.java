@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+// UNUSED
 public class GameUI {
     public void start(Stage primaryStage) {
         GameBoard board = new GameBoard();

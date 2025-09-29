@@ -1,3 +1,5 @@
+// This file is currently unused
+package unused;// This file is currently unused
 
 import Menu.GameBoard;
 import Menu.TetrisBlock;
@@ -53,7 +55,7 @@ public class InputHandler {
 
 
     private void moveDown() {
-// Check if block can move down without collision
+        // Check if block can move down without collision
         block.moveDown(); // Tentatively move down
 
         if (board.checkCollision(block)) {
