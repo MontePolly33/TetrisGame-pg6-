@@ -1,8 +1,8 @@
 // This file is currently unused
 package unused;// This file is currently unused
 
-import Menu.GameBoard;
-import Menu.TetrisBlock;
+import menu.GameBoard;
+import menu.TetrisBlock;
 
 import java.util.Scanner;
 
@@ -68,4 +68,21 @@ public class InputHandler {
 
         board.renderBlock(block); // Redraw the board
     }
+
+    /*
+    // Version previously found in TetrisBlock
+    public boolean tryMoveDown(GameBoard board) {
+        // Move down temporarily
+        this.y++;
+
+        // Check collision
+        if (board.checkCollision(this)) {
+            moveUp(); // Undo
+            this.setLanded(true);
+            return false;
+        }
+
+        return true; // Move succeeded
+    }
+    */
 }

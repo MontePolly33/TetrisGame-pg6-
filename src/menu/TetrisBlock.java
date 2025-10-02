@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 public class TetrisBlock {
     private int[][] shape;
@@ -73,17 +73,5 @@ public class TetrisBlock {
         this.y = 0;
     }
 
-    public boolean tryMoveDown(GameBoard board) {
-        // Move down temporarily
-        this.y++;
-
-        // Check collision
-        if (board.checkCollision(this)) {
-            moveUp(); // Undo
-            this.setLanded(true);
-            return false;
-        }
-
-        return true; // Move succeeded
-    }
+    // tryMoveDown was here but it was unused so it was moved to the InputHandler file for reference
 }

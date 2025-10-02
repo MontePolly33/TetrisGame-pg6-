@@ -1,4 +1,4 @@
-import Menu.UI;
+import menu.ui;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -29,7 +29,7 @@ public class MainProject extends Application {
         // Wait 5 seconds then switch to main menu
         PauseTransition delay = new PauseTransition(Duration.seconds(3));  //shows splash screen for 5 seconds then goes to menu
         delay.setOnFinished(event -> {
-            UI ui = new UI(stage);
+            ui ui = new ui(stage);
             ui.showMainMenu();
         });
         delay.play();

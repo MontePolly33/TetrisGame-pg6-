@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 public class TetrisShapes {
     private static final int[][][][] SHAPES = {

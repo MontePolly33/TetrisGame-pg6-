@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,7 +26,7 @@ public class ConfigurationMenu {
 
         backButton.setOnAction(e -> {
 // Go back to Main Menu using the same stage
-            new UI(stage).showMainMenu();
+            new ui(stage).showMainMenu();
         });
 
         VBox layout = new VBox(15);

@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,7 +17,7 @@ public class ScoreboardMenu {
 
         Button backButton = new Button("Back to Main Menu");
         backButton.setOnAction(e -> {
-            new UI(stage).showMainMenu();
+            new ui(stage).showMainMenu();
         });
 
         VBox layout = new VBox(15);

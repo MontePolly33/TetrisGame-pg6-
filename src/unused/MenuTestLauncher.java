@@ -3,12 +3,12 @@ package unused;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import Menu.UI;
+import menu.ui;
 
 public class MenuTestLauncher extends Application {
     @Override
     public void start(Stage primaryStage) {
-        UI ui = new UI(primaryStage);
+        ui ui = new ui(primaryStage);
         ui.showMainMenu(); // This opens your menu screen
     }
 
