@@ -73,8 +73,8 @@ public class GameLoop extends Application {
                         }
                     }
                     case S -> {
-                        int blockBottom1 = currentBlock1.getY() + currentBlock1.getShape().length;
-                        if (blockBottom1 < board1.BOARD_HEIGHT && !board1.checkVertCollision(currentBlock1)){
+                        int block1Bottom = currentBlock1.getY() + currentBlock1.getShape().length;
+                        if (block1Bottom < board1.BOARD_HEIGHT && !board1.checkVertCollision(currentBlock1)){
                             currentBlock1.moveDown();
                             //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
@@ -100,8 +100,8 @@ public class GameLoop extends Application {
                         }
                     }
                     case DOWN -> {
-                        int blockBottom2 = currentBlock2.getY() + currentBlock2.getShape().length;
-                        if (blockBottom2 < board2.BOARD_HEIGHT && !board2.checkVertCollision(currentBlock2)){
+                        int block2Bottom = currentBlock2.getY() + currentBlock2.getShape().length;
+                        if (block2Bottom < board2.BOARD_HEIGHT && !board2.checkVertCollision(currentBlock2)){
                             currentBlock2.moveDown();
                             //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }

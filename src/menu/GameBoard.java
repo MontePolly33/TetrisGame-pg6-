@@ -21,6 +21,8 @@ public class GameBoard extends Canvas {
         setHeight(BOARD_HEIGHT * TILE_SIZE);
     }
 
+    public int[][] getGrid() {return grid; }
+
     public boolean BlockJustLanded(){ return blockJustLanded; }
     public void setCurrentBlock(TetrisBlock block){ this.currentBlock = block; }
     public void startBlockLandCooldown(){
