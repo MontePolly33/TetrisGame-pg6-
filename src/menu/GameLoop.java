@@ -5,6 +5,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.Random;
 import sound.SoundManager;
 
 public class GameLoop extends Application {
@@ -16,9 +19,14 @@ public class GameLoop extends Application {
     private static TetrisBlock currentBlock2;
 
     private boolean isPaused = false;
+    private boolean playSounds = true;  // Change this to reference the JSON file for config stuff
+
+    private static BlockSequencer sequencer;
 
     @Override
     public void start(Stage stage) {
+        Random rand = new Random();
+
         board1 = new GameBoard();
         board2 = new GameBoard();
 
@@ -35,13 +43,17 @@ public class GameLoop extends Application {
         stage.setTitle("Tetris Multiplayer");
         stage.show();
 
-        currentBlock1 = RandomBlock.getRandomBlock();
-        currentBlock2 = RandomBlock.getRandomBlock();
+        sequencer = new BlockSequencer(0, 0, new ArrayList<>());
+
+        int shapeIndex = rand.nextInt(TetrisShapes.getShapeCount());
+        int rotation = rand.nextInt(4);
+        currentBlock1 = new TetrisBlock(shapeIndex, rotation, TetrisShapes.getShape(shapeIndex, rotation), TetrisShapes.getColor(shapeIndex));
+        currentBlock2 = new TetrisBlock(shapeIndex, rotation, TetrisShapes.getShape(shapeIndex, rotation), TetrisShapes.getColor(shapeIndex));
 
         board1.renderBlock(currentBlock1);
         board2.renderBlock(currentBlock2);
 
-        Gravity.startGravity(board1, board2);
+        Gravity.startGravity(board1, board2, sequencer);
 
         scene.setOnKeyPressed(event -> {
             if (!board1.isGameOver() && !board2.isGameOver() && !isPaused) {
@@ -50,27 +62,27 @@ public class GameLoop extends Application {
                     case A -> {
                         if (!board1.checkHorCollision(currentBlock1, "Left")) {
                             currentBlock1.moveLeft();
-                            //SoundManager.playMoveTurnSound();
+                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
                     }
 
                     case D ->{
                         if (!board1.checkHorCollision(currentBlock1, "Right")) {
                             currentBlock1.moveRight();
-                            //SoundManager.playMoveTurnSound();
+                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
                     }
                     case S -> {
                         int blockBottom1 = currentBlock1.getY() + currentBlock1.getShape().length;
                         if (blockBottom1 < board1.BOARD_HEIGHT && !board1.checkVertCollision(currentBlock1)){
                             currentBlock1.moveDown();
-                            //SoundManager.playMoveTurnSound();
+                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
                     }
                     case W -> {
                         if (board1.rotationCheckAndMove(currentBlock1) == 0){
                             currentBlock1.rotate();
-                            //SoundManager.playMoveTurnSound();
+                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
                     }
 
@@ -78,26 +90,26 @@ public class GameLoop extends Application {
                     case LEFT -> {
                         if (!board2.checkHorCollision(currentBlock2, "Left")) {
                             currentBlock2.moveLeft();
-                            //SoundManager.playMoveTurnSound();
+                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
                     }
                     case RIGHT ->{
                         if (!board2.checkHorCollision(currentBlock2, "Right")) {
                             currentBlock2.moveRight();
-                            //SoundManager.playMoveTurnSound();
+                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
                     }
                     case DOWN -> {
                         int blockBottom2 = currentBlock2.getY() + currentBlock2.getShape().length;
                         if (blockBottom2 < board2.BOARD_HEIGHT && !board2.checkVertCollision(currentBlock2)){
                             currentBlock2.moveDown();
-                            //SoundManager.playMoveTurnSound();
+                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
                     }
                     case UP -> {
                         if (board2.rotationCheckAndMove(currentBlock2) == 0){
                             currentBlock2.rotate();
-                            //SoundManager.playMoveTurnSound();
+                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
                     }
 
@@ -114,6 +126,11 @@ public class GameLoop extends Application {
                     Gravity.pauseGravity(false);
                     isPaused = false;
                 }
+            }
+
+            if (event.getCode() == KeyCode.S) {
+                if (playSounds) { playSounds = false; }
+                else { playSounds = true; }
             }
 
             if (event.getCode() == KeyCode.ESCAPE) {System.exit(0);}

@@ -36,6 +36,8 @@ public class TetrisBlock {
         return shape;
     }
 
+    public int getShapeIndex() { return shapeIndex; }
+
     public int getX() {
         return x;
     }
