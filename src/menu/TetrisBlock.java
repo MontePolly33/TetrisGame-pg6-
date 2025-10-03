@@ -1,19 +1,17 @@
 package menu;
 
+import javafx.scene.paint.Color;
+
 public class TetrisBlock {
     private int[][] shape;
     private int x, y;
-    private boolean hasLanded = false;
     private int shapeIndex;
     private int rotation;
     private String color;
+    //private boolean hasLanded = false;
 
-    public void setLanded(boolean landed){
-    this.hasLanded = landed;
-}
-    public boolean isLanded(){
-    return hasLanded;
-}
+    //public void setLanded(boolean landed){ this.hasLanded = landed; }
+    //public boolean isLanded(){ return hasLanded; }
 
     public TetrisBlock(int shapeIndex, int rotation, int[][] shape, String color) {
         this.shapeIndex = shapeIndex;
@@ -27,6 +25,11 @@ public class TetrisBlock {
     public void rotate(){
         rotation = (rotation + 1) % TetrisShapes.getRotationCount(shapeIndex);
         shape = TetrisShapes.getShape(shapeIndex, rotation);
+    }
+
+    public int[][] pseudoRotate() {
+        int pseudoRotation = (rotation + 1) % TetrisShapes.getRotationCount(shapeIndex);
+        return TetrisShapes.getShape(shapeIndex, pseudoRotation);
     }
 
     public int[][] getShape() {
@@ -47,24 +50,40 @@ public class TetrisBlock {
        int [][] shape = getShape();
        if (y + shape.length < GameBoard.BOARD_HEIGHT){
            y++;
-           System.out.println(shape.length);
        }
     }
 
     public void moveLeft() {
-       if(x > 0){
            x--;
-       }
     }
 
     public void moveRight() {
-       if (x + getShape()[0].length < 10){
            x++;
-       }
     }
 
     public String getColor() {
         return TetrisShapes.getColor(shapeIndex);
+    }
+
+    public void reposition(int moveHor){
+        x += moveHor;
+    }
+
+    public int getShapeLongest() {
+        int longest = 0;
+
+        for (int row = 0; row < shape.length; row++) {
+            double tempLongest = 0;
+
+            for (int col = 0; col < shape[row].length; col++) {
+                if (shape[row][col] == 1) { tempLongest += 1; }
+                else if (shape[row][col] == 0) { tempLongest += 0.5; }
+                if (tempLongest > longest) {
+                    longest = (int) Math.ceil(tempLongest);
+                }
+            }
+        }
+        return longest;
     }
 
     // For debugging

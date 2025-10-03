@@ -21,14 +21,8 @@ public class GameBoard extends Canvas {
         setHeight(BOARD_HEIGHT * TILE_SIZE);
     }
 
-    public boolean BlockJustLanded(){
-        return blockJustLanded;
-    }
-
-    public void setCurrentBlock(TetrisBlock block){
-        this.currentBlock = block;
-    }
-
+    public boolean BlockJustLanded(){ return blockJustLanded; }
+    public void setCurrentBlock(TetrisBlock block){ this.currentBlock = block; }
     public void startBlockLandCooldown(){
         blockJustLanded = true;
         javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.millis(120));
@@ -127,7 +121,7 @@ public class GameBoard extends Canvas {
         }
     }
 
-    public boolean checkCollision(TetrisBlock block) {
+    public boolean checkVertCollision(TetrisBlock block) {
         int[][] shape = block.getShape();
         int x = block.getX();
         int y = block.getY();
@@ -147,9 +141,63 @@ public class GameBoard extends Canvas {
         return false;
     }
 
-    // public void placeBlock(TetrisBlock block) {
-    // saveBlockToGrid(block);
-    //}
+    public boolean checkHorCollision(TetrisBlock block, String LeftOrRight) {
+        int[][] shape = block.getShape();
+        int x = block.getX();
+        int y = block.getY();
+        //System.out.println(x);
+
+        for (int row = 0; row < shape.length; row++) {
+            for (int col = 0; col < shape[row].length; col++) {
+                int gridY = 0;
+                int gridX = 0;
+
+                if (shape[row][col] == 1) {
+                    if (LeftOrRight.equals("Left")){
+                        gridY = y + row;
+                        gridX = x + col - 1;
+                        if (x == 0) { return true; }
+                    }
+                    else if (LeftOrRight.equals("Right")){
+                        gridY = y + row;
+                        gridX = x + col + 1;
+                        if (gridX == BOARD_WIDTH) { return true; }
+                    }
+
+                    if (grid[gridY][gridX] == 1) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public int rotationCheckAndMove(TetrisBlock block){
+        int[][] pseudoShape = block.pseudoRotate();
+        int x = block.getX();
+        int y = block.getY();
+        int overlaps = 10;
+
+        //while (overlaps > 0) {          I have this here in case I want to setup automatic repositioning when overlapping
+        overlaps = 0;
+        for (int row = 0; row < pseudoShape.length; row++) {
+            for (int col = 0; col < pseudoShape[row].length; col++) {
+                int gridY = 0;
+                int gridX = 0;
+
+                if (pseudoShape[row][col] == 1) {
+                    gridY = y + row;
+                    gridX = x + col;
+
+                    if (gridX <= -1 || gridX >= BOARD_WIDTH) { overlaps++; }
+                    else if (grid[gridY][gridX] == 1) { overlaps++; }
+                }
+            }
+        }
+        //}
+        return overlaps;
+    }
 
     public boolean isGameOver() {
         for (int col = 0; col < BOARD_WIDTH; col++) {
@@ -159,6 +207,10 @@ public class GameBoard extends Canvas {
         }
         return false;
     }
+
+    // public void placeBlock(TetrisBlock block) {
+    // saveBlockToGrid(block);
+    //}
 
     //public TetrisBlock getCurrentBlock() {
     // return currentBlock;

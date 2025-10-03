@@ -13,9 +13,8 @@ public class Gravity {
 
             // === PLAYER 1 BLOCK ===
             TetrisBlock tempBlock1 = GameLoop.getCurrentBlock1();
-            boolean blockBottom1 = board1.checkCollision(tempBlock1);
-            if (blockBottom1 || tempBlock1.isLanded()) {
-                tempBlock1.setLanded(true);
+            if (board1.checkVertCollision(tempBlock1)) {
+                //tempBlock1.setLanded(true);
                 board1.saveBlockToGrid(tempBlock1);
 
                 if (board1.isGameOver()) {
@@ -27,7 +26,6 @@ public class Gravity {
 
                 TetrisBlock newBlock1 = RandomBlock.getRandomBlock();
                 GameLoop.setCurrentBlock1(newBlock1);
-                tempBlock1 = newBlock1;
                 board1.renderBlock(newBlock1);
 
             } else {
@@ -37,9 +35,8 @@ public class Gravity {
 
             // === PLAYER 2 BLOCK ===
             TetrisBlock tempBlock2 = GameLoop.getCurrentBlock2();
-            boolean blockBottom2 = board2.checkCollision(tempBlock2);
-            if (blockBottom2 || tempBlock2.isLanded()) {
-                tempBlock2.setLanded(true);
+            if (board2.checkVertCollision(tempBlock2)) {
+                //tempBlock2.setLanded(true);
                 board2.saveBlockToGrid(tempBlock2);
 
                 if (board2.isGameOver()) {
@@ -51,7 +48,6 @@ public class Gravity {
 
                 TetrisBlock newBlock2 = RandomBlock.getRandomBlock();
                 GameLoop.setCurrentBlock2(newBlock2);
-                tempBlock2 = newBlock2;
                 board2.renderBlock(newBlock2);
 
             } else {
@@ -65,9 +61,10 @@ public class Gravity {
         timeline.play();
     }
 
-    public static void stopGravity() {
+    public static void pauseGravity(boolean pause) {
         if (timeline != null) {
-            timeline.stop();
+            if (pause) { timeline.pause(); }
+            else { timeline.play(); }
         }
     }
 }

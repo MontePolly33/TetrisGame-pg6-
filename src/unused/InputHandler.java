@@ -58,9 +58,9 @@ public class InputHandler {
         // Check if block can move down without collision
         block.moveDown(); // Tentatively move down
 
-        if (board.checkCollision(block)) {
+        if (board.checkVertCollision(block)) {
             block.moveUp(); // Undo the move
-            block.setLanded(true);
+            //block.setLanded(true);
             System.out.println("Block landed from manual move.");
         } else {
             System.out.println("Manual move down successful.");
