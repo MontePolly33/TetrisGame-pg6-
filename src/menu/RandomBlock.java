@@ -15,10 +15,7 @@ public class RandomBlock {
         return new TetrisBlock(shapeIndex, rotation, shape, color); // this matches constructor: (int[][], String)
     }
 
-    public static TetrisBlock getSpecificBlock(int shapeIndex) {
-        Random rand = new Random();
-
-        int rotation = rand.nextInt(4);
+    public static TetrisBlock getSpecificBlock(int shapeIndex, int rotation) {
         int[][] shape = TetrisShapes.getShape(shapeIndex, rotation);
         String color = TetrisShapes.getColor(shapeIndex);
 

@@ -53,7 +53,9 @@ public class GameLoop extends Application {
         board1.renderBlock(currentBlock1);
         board2.renderBlock(currentBlock2);
 
-        Gravity.startGravity(board1, board2, sequencer);
+        boolean hasAI = true; // Put check for whether AI is turned on here, set in the config i guess
+
+        Gravity.startGravity(board1, board2, sequencer, hasAI);
 
         scene.setOnKeyPressed(event -> {
             if (!board1.isGameOver() && !board2.isGameOver() && !isPaused) {
@@ -85,35 +87,38 @@ public class GameLoop extends Application {
                             //if (playSounds) { SoundManager.playMoveTurnSound(); }
                         }
                     }
-
-                    // Player 2 (Arrow keys)
-                    case LEFT -> {
-                        if (!board2.checkHorCollision(currentBlock2, "Left")) {
-                            currentBlock2.moveLeft();
-                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
-                        }
-                    }
-                    case RIGHT ->{
-                        if (!board2.checkHorCollision(currentBlock2, "Right")) {
-                            currentBlock2.moveRight();
-                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
-                        }
-                    }
-                    case DOWN -> {
-                        int block2Bottom = currentBlock2.getY() + currentBlock2.getShape().length;
-                        if (block2Bottom < board2.BOARD_HEIGHT && !board2.checkVertCollision(currentBlock2)){
-                            currentBlock2.moveDown();
-                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
-                        }
-                    }
-                    case UP -> {
-                        if (board2.rotationCheckAndMove(currentBlock2) == 0){
-                            currentBlock2.rotate();
-                            //if (playSounds) { SoundManager.playMoveTurnSound(); }
-                        }
-                    }
-
                     default -> {}
+                }
+                if (!hasAI){
+                    switch (event.getCode()){
+                        // Player 2 (Arrow keys)
+                        case LEFT -> {
+                            if (!board2.checkHorCollision(currentBlock2, "Left")) {
+                                currentBlock2.moveLeft();
+                                //if (playSounds) { SoundManager.playMoveTurnSound(); }
+                            }
+                        }
+                        case RIGHT ->{
+                            if (!board2.checkHorCollision(currentBlock2, "Right")) {
+                                currentBlock2.moveRight();
+                                //if (playSounds) { SoundManager.playMoveTurnSound(); }
+                            }
+                        }
+                        case DOWN -> {
+                            int block2Bottom = currentBlock2.getY() + currentBlock2.getShape().length;
+                            if (block2Bottom < board2.BOARD_HEIGHT && !board2.checkVertCollision(currentBlock2)){
+                                currentBlock2.moveDown();
+                                //if (playSounds) { SoundManager.playMoveTurnSound(); }
+                            }
+                        }
+                        case UP -> {
+                            if (board2.rotationCheckAndMove(currentBlock2) == 0){
+                                currentBlock2.rotate();
+                                //if (playSounds) { SoundManager.playMoveTurnSound(); }
+                            }
+                        }
+                        default -> {}
+                    }
                 }
             }
 

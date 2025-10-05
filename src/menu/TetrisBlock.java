@@ -32,6 +32,8 @@ public class TetrisBlock {
         return TetrisShapes.getShape(shapeIndex, pseudoRotation);
     }
 
+    public int getRotation() { return rotation; }
+
     public int[][] getShape() {
         return shape;
     }
