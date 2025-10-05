@@ -90,16 +90,16 @@ public class Gravity {
                 Random rand = new Random();
                 AI ai = new AI();
 
+                if (board1.isGameOver() || board2.isGameOver()) {
+                    System.out.println("Game Over! AI has stopped running");
+                    SoundManager.playGameFinishSound();
+                    AItimeline.stop();
+                    return;
+                }
+
                 TetrisBlock tempBlock2 = GameLoop.getCurrentBlock2();
                 if (board2.checkVertCollision(tempBlock2)) {
                     board2.saveBlockToGrid(tempBlock2);
-
-                    if (board1.isGameOver() || board2.isGameOver()) {
-                        System.out.println("Game Over! AI has stopped running");
-                        SoundManager.playGameFinishSound();
-                        AItimeline.stop();
-                        return;
-                    }
 
                     TetrisBlock newBlock2;
 

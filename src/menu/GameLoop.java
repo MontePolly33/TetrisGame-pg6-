@@ -53,7 +53,7 @@ public class GameLoop extends Application {
         board1.renderBlock(currentBlock1);
         board2.renderBlock(currentBlock2);
 
-        boolean hasAI = true; // Put check for whether AI is turned on here, set in the config i guess
+        boolean hasAI = true; // Put check for whether AI is turned on here, set in the config i guess ////////////////////////////////////////////////////
 
         Gravity.startGravity(board1, board2, sequencer, hasAI);
 
